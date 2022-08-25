@@ -1,0 +1,4 @@
+project: PROJECT
+target: pffft_complex_fuzzer
+cmds:
+- cmd: /out/pffft_complex_fuzzer
