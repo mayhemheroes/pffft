@@ -15,9 +15,10 @@
 ################################################################################
 
 FROM gcr.io/oss-fuzz-base/base-builder
-RUN apt-get update && apt-get install -y mercurial python-numpy python
-COPY . $SRC/pffft
-RUN rm -rf $SRC/pffft/mayhem
+RUN sed -i s|snapshot.ubuntu.com|archive.ubuntu.com|g /etc/apt/sources.list /etc/apt/sources.list.d/*.list 2>/dev/null || true
+RUN apt-get update && apt-get install -y mercurial python-is-python3
+RUN pip3 install numpy
+RUN git clone --depth=1 https://bitbucket.org/jpommier/pffft.git $SRC/pffft
 WORKDIR pffft
 COPY mayhem/build.sh $SRC
 # TODO(alessiob): Move the fuzzing source code to pffft upstream.
